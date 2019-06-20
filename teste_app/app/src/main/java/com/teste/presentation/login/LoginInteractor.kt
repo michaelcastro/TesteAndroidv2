@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 
 
 interface LoginInteractorInput {
-    fun doLogin(user: String, password: String)
+    fun doLogin(request: LoginRequest)
     fun checkPassword(password: String): Boolean
     fun getUser()
 }
@@ -21,16 +21,18 @@ class LoginInteractor : LoginInteractorInput {
         }
 
     @SuppressLint("CheckResult")
-    override fun doLogin(user: String, password: String) {
-        if (checkPassword(password)) {
+    override fun doLogin(request: LoginRequest) {
+        if (checkPassword(request.password)) {
+            val response = LoginResponse()
             Observable.fromCallable {
-                workerInput?.saveUser(user)
-                workerInput?.doLogin(user, password)
+                workerInput?.saveUser(request.user)
+                workerInput?.doLogin(request.user, request.password)
             }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    output?.presentLoginData(it!!)
+                    response.dataResponseLogin = it
+                    output?.presentLoginData(response)
                 },
                     { it!!.message?.let { it1 -> output?.showMessage(it1) } }
                 )

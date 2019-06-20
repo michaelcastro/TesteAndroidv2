@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.teste.R
-import com.teste.domain.login.model.UserAccount
+import com.teste.domain.model.UserAccount
 import kotlinx.android.synthetic.main.activity_login.*
 
 interface LoginActivityInput {
     fun doLogin()
-    fun displayLoginData(userAccount: UserAccount)
+    fun displayLoginData(loginViewModel: LoginViewModel)
     fun showLoginMessage(message : String)
     fun setUpUser(user : String)
 }
@@ -37,12 +36,15 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
 
     override fun doLogin() {
         showDialogLoading(resources.getString(R.string.login))
-        output.doLogin(login.text.toString(), password.text.toString())
+        val request = LoginRequest()
+        request.user = login.text.toString()
+        request.password = password.text.toString()
+        output.doLogin(request)
     }
 
-    override fun displayLoginData(userAccount: UserAccount) {
+    override fun displayLoginData(loginViewModel: LoginViewModel) {
         closeDialogLoading()
-        router.openHomeActivity()
+        router.openHomeActivity(loginViewModel.dataResponseLogin!!.userAccount)
     }
 
     override fun showLoginMessage(message : String) {
@@ -67,6 +69,10 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
 
     fun closeDialogLoading() {
         dialogProgress?.dismiss()
+    }
+
+    companion object {
+        const val TAG = "LoginActivity"
     }
 
 }

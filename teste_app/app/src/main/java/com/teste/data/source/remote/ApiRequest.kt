@@ -1,14 +1,16 @@
 package com.teste.data.source.remote
 
-import com.teste.domain.login.model.DataResponseLogin
+import com.teste.domain.model.Recents
+import com.teste.domain.model.DataResponseLogin
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiRequest {
 
     @FormUrlEncoded
     @POST("login")
     fun doLogin(@Field("user") user: String, @Field("password") password: String) : Call<DataResponseLogin>
+
+    @GET("statements/{idUser}")
+    fun getRecents(@Path("idUser") idUser: Int) : Call<Recents>
 }

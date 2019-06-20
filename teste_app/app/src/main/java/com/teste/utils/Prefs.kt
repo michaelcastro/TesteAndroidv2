@@ -14,7 +14,7 @@ object Prefs {
         Hawk.put(PREF_ID.user.toString(), user);
     }
 
-    fun getUser(): String {
+    fun getUser(): String? {
         Hawk.init(ApplicationMain.instance?.applicationContext).build()
         return Hawk.get(PREF_ID.user.toString());
     }

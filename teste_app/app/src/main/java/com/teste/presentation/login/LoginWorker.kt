@@ -3,7 +3,7 @@ package com.teste.presentation.login
 import android.util.Log
 import com.teste.BuildConfig
 import com.teste.data.source.remote.ApiRequest
-import com.teste.domain.login.model.DataResponseLogin
+import com.teste.domain.model.DataResponseLogin
 import com.teste.utils.Prefs
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface LoginWorkerInput {
     fun doLogin( user: String, password: String): DataResponseLogin?
     fun saveUser( user: String)
-    fun getUser(): String
+    fun getUser(): String?
 }
 
 class LoginWorker : LoginWorkerInput {
@@ -37,6 +37,6 @@ class LoginWorker : LoginWorkerInput {
         Prefs.saveUser(user)
     }
 
-    override fun getUser() = Prefs.getUser()
+    override fun getUser(): String? = Prefs.getUser()
 
 }

@@ -1,5 +1,11 @@
 package com.teste.presentation.home
 
+import android.annotation.SuppressLint
+import android.util.Log
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
 interface HomeInteractorInput {
     fun fetchHomeData(request: HomeRequest)
 }
@@ -12,15 +18,28 @@ class HomeInteractor : HomeInteractorInput {
             return field ?: HomeWorker()
         }
 
+    @SuppressLint("CheckResult")
     override fun fetchHomeData(request: HomeRequest) {
-        // Log.d(TAG, "In method fetchHomeData")
         val response = HomeResponse()
-
-        // Call the workers
-        // workerInput.someWork()
-
-        // Call the presenter
-        output?.presentHomeData(response)
+        Observable.fromCallable {
+            workerInput?.getAllRecents(request.idUser)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e("recents1", it.toString())
+                response.recents = it
+                output?.presentHomeData(response)
+            },
+                {
+                  //  Log.e("recents2", it.message)
+                    response.recents = null
+                    it!!.message?.let { it1 ->
+                        response.message = it.message!!
+                        output?.presentHomeData(response)
+                    }
+                }
+            )
     }
 
     companion object {

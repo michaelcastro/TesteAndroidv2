@@ -7,7 +7,7 @@ object HomeConfigurator {
     fun configureActivity(activity: HomeActivity) {
 
         val router = HomeRouter()
-        router.fragment = WeakReference(activity)
+        router.activity = WeakReference(activity)
 
         val presenter = HomePresenter()
         presenter.output = WeakReference(activity)

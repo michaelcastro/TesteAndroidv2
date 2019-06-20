@@ -1,21 +1,21 @@
 package com.teste.presentation.login
 
+import com.teste.domain.model.DataResponseLogin
+
 class LoginModel {
 
 
 }
 
 class LoginViewModel {
-    //filter to have only the needed data
-
+    var dataResponseLogin : DataResponseLogin? = null
 }
-/*
 
 class LoginRequest {
-
+    lateinit var user : String
+    lateinit var password : String
 }
 
 class LoginResponse {
-
+    var dataResponseLogin : DataResponseLogin? = null
 }
-*/
