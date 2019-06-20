@@ -8,5 +8,5 @@ Android Clean Code
 
 ## Bibliotecas
 
-- [Hawk](https://github.com/orhanobut/hawk)para o armazenamento de dados criptografados.
-- [Retrofit](https://square.github.io/retrofit/): Biblioteca escolhida para requisições das APIs.
+- [Hawk](https://github.com/orhanobut/hawk): Para o armazenamento de dados criptografados.
+- [Retrofit](https://square.github.io/retrofit/): Para requisições das APIs.
